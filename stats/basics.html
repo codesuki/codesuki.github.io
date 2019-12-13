@@ -193,6 +193,11 @@ summary {
 <li><a href="#power-analysis-ii">Power Analysis II</a></li>
 <li><a href="#making-sure-we-have-enough-power">Making sure we have enough power</a></li>
 <li><a href="#t-test">t-test</a></li>
+<li><a href="#appendix">Appendix</a><ul>
+<li><a href="#where-does-the-sample-size-formula-come-from">Where does the sample size formula come from?</a></li>
+<li><a href="#what-is-the-difference-between-a-z-test-and-a-t-test">What is the difference between a Z-test and a t-test</a></li>
+<li><a href="#why-does-the-sample-variance-use-n-1-instead-of-n">Why does the sample variance use n-1 instead of n</a></li>
+</ul></li>
 <li><a href="#todo">TODO</a></li>
 </ul>
 </div>
@@ -214,8 +219,8 @@ summary {
 <p>To analyse experiments we run frequentist hypothesis tests. They are widely used and well documented. We split our users in two groups and compare them to see whether there is a difference or not.</p>
 <p>A hypothesis consists of two hypotheses <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_a\)</span>.</p>
 <ul>
-<li><span class="math inline">\(H_0: H_0 = H_a\)</span> – There is no difference between the groups</li>
-<li><span class="math inline">\(H_a: H_0 \neq H_a\)</span> – There is a difference between the groups</li>
+<li><span class="math inline">\(H_0: \mu_1 = \mu_2\)</span> – There is no difference between the groups</li>
+<li><span class="math inline">\(H_a: \mu_2 \neq \mu_2\)</span> – There is a difference between the groups</li>
 </ul>
 <p>For the test to be of value it needs to be ‘powered’, to be sure the change we detect is not caused by chance.</p>
 </div>
@@ -332,12 +337,14 @@ plot_heights(means, &quot;Histogram of sample means from mixed distribution&quot
 <div id="hypothesis-testing-ii" class="section level1">
 <h1>Hypothesis testing II</h1>
 <p>So now that we know how to satisfy the 2 assumptions about the data let’s continue with the t-test. <br /> The t-test itself has another assumption, i.e. that the variances of the two samples are equal. Since we control this and we set the SD for both to be 5, this is satisfied.</p>
-<p>Remember our two hypothesis from above:</p>
+<p>We start by defining our hypotheses</p>
 <ul>
-<li><span class="math inline">\(H_0: H_0 = H_a\)</span> – There is no difference between the groups</li>
-<li><span class="math inline">\(H_a: H_0 \neq H_a\)</span> – There is a difference between the groups</li>
+<li><span class="math inline">\(H_0: \mu_m = \mu_f\)</span> – Men and women heights are the same</li>
+<li><span class="math inline">\(H_a: \mu_m \neq \mu_f\)</span> – Men and women heights are different</li>
 </ul>
 <p>The t-statistic, <span class="math inline">\(t\)</span>, for this is</p>
+<p><span class="math display">\[s_m^2 = \frac{\sum{(X_{mi}-\overline{X})}^2}{n_m-1}\]</span> Where <span class="math inline">\(n_m\)</span> is the number of samples from the male population.</p>
+<p><span class="math inline">\(s_f^2\)</span> is calculated similarly</p>
 <p><span class="math display">\[SE_{pooled} = \frac{(n_m - 1) s_m^2 + (n_f - 1) s_f^2}{(n_m + n_f - 2)}\]</span> <span class="math display">\[t = \frac{(\mu_m - \mu_f)}{(SE_{pooled} * \sqrt{1 / n_m + 1 / n_f}}\]</span></p>
 <p>Where <span class="math inline">\(SE_{pooled}\)</span> is the pooled variance, which is a weighted average of the two variances. The more samples we have, i.e. correcter the variance, the more it should be weighted.</p>
 <p>Why this works exactly is, again, out of the scope here, but what it means is: <br /> How likely is our sampling distribution to be the same as our <span class="math inline">\(H_0\)</span> distribution which is a normal with mean 0 (because if <span class="math inline">\(\mu_m = \mu_f \implies \mu_m - \mu_f = 0\)</span>)</p>
@@ -472,6 +479,18 @@ t &lt;- ((delta) - 0) / (SE.pooled * sqrt(1/N + 1/N))
 p &lt;- 2*pt(t, df=2*N-2, lower.tail = FALSE)
 interval &lt;- c(delta - qt(p = 1 - alpha, df = 2*N-2) * (SE.pooled * sqrt(1/N + 1/N)), delta + qt(p = 1 - alpha, df = 2*N-2) * (SE.pooled * sqrt(1/N + 1/N)))</code></pre>
 </div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<div id="where-does-the-sample-size-formula-come-from" class="section level2">
+<h2>Where does the sample size formula come from?</h2>
+</div>
+<div id="what-is-the-difference-between-a-z-test-and-a-t-test" class="section level2">
+<h2>What is the difference between a Z-test and a t-test</h2>
+</div>
+<div id="why-does-the-sample-variance-use-n-1-instead-of-n" class="section level2">
+<h2>Why does the sample variance use n-1 instead of n</h2>
+</div>
+</div>
 <div id="todo" class="section level1">
 <h1>TODO</h1>
 <ul>
@@ -480,9 +499,8 @@ interval &lt;- c(delta - qt(p = 1 - alpha, df = 2*N-2) * (SE.pooled * sqrt(1/N +
 <li>t-test assumptions, pooled variance</li>
 <li>difference t distribution / normal distribution</li>
 <li>multiple testing</li>
-<li>unit of randomization / unit of analysis</li>
+<li>unit of randomization / unit of analysis / delta method</li>
 <li>why do we need to compute power beforehand?</li>
-<li>intuition for power formula</li>
 <li>trigger analysis</li>
 </ul>
 </div>
